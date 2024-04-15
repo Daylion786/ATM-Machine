@@ -1,8 +1,11 @@
 #! /usr/bin/env  node
 import inquirer from "inquirer";
-let moneyBalance = 100000; // Dollars
+// amount of bankbalance
+let moneyBalance = 50000; // Dollars
 console.log("Your current bank balance is: " + moneyBalance);
+// pin code for safety
 const pinNumber = 247786;
+//entering pin code 
 let bankATM = await inquirer.prompt([
     {
         message: "Plz type your correct pin:",
@@ -10,29 +13,63 @@ let bankATM = await inquirer.prompt([
         type: "number",
     },
 ]);
+//checking if pin code is correct or incorrect?????
 if (bankATM.pincode === pinNumber) {
     console.log("Correct pin code");
+    //account type
     let bankingSystem = await inquirer.prompt([
         {
-            message: "what do you like to do:",
+            message: "Select your account type",
             name: "features",
             type: "list",
-            choices: ["Withdraw", "Check Balance"],
-        }
+            choices: ["Current Account", "Saving Account"],
+        },
     ]);
-    if (bankingSystem.features == "Withdraw") {
-        let withdrawAmount = await inquirer.prompt([
+    //transaction method
+    if (bankingSystem.features == "Current Account") {
+        let currentAccountsystem = await inquirer.prompt([
             {
-                message: "How much balance do you to withdraw:",
-                name: "amount",
-                type: "number",
-            }
+                message: "select your trsnsaction method",
+                name: "currentAccount",
+                type: "list",
+                choices: ["Withdrawl Amount", "Fastcash"],
+            },
         ]);
-        console.log("Now your current amount is:", moneyBalance - withdrawAmount.amount);
+        //taking how much amount did user wants to withdraw
+        if (currentAccountsystem.currentAccount === "Withdrawl Amount") {
+            let withdrawAmount = await inquirer.prompt([
+                {
+                    name: "amount",
+                    message: "Enter the amount you want to withdraw:",
+                    type: "number",
+                },
+            ]);
+            console.log("Succesfully withdrawl the amount your current bank balance is :)", `${moneyBalance - withdrawAmount.amount}`);
+        }
+        //fastcah amount withdraw
+        else {
+            let fastCash = await inquirer.prompt([
+                {
+                    name: "fashcashamount",
+                    type: "list",
+                    message: "select the amount to withdraw",
+                    choices: [100, 500, 1000, 5000],
+                },
+            ]);
+            console.log("Succesfully withdraw the amount and reamaining balancec is:", `${moneyBalance - fastCash.fashcashamount}`);
+        }
     }
     else {
-        console.log("you current balance is:" + moneyBalance);
+        let savingAccountsystem = await inquirer.prompt([
+            {
+                name: "savingAmount",
+                type: "number",
+                message: "How much amount do you want to add in youe saving amount",
+            },
+        ]);
+        console.log("Succesfully added to your saving account :)", `${moneyBalance + savingAccountsystem.savingAmount}`);
     }
 }
-else
+else {
     console.log("incorrect pin");
+}
