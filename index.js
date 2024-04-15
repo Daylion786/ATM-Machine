@@ -1,7 +1,7 @@
 #! /usr/bin/env  node
 import inquirer from "inquirer";
 // amount of bankbalance
-let moneyBalance = 50000; // Dollars
+let moneyBalance = 100000; // Dollars
 console.log("Your current bank balance is: " + moneyBalance);
 // pin code for safety
 const pinNumber = 247786;
